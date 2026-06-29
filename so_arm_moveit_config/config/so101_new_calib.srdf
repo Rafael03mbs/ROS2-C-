@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="so101_new_calib">
+    <!-- Arm group: 5 DOF from base to tool_tip -->
+    <group name="arm">
+        <chain base_link="base" tip_link="tool_tip"/>
+    </group>
+    
+    <!-- Gripper group: just the jaw joint -->
+    <group name="gripper">
+        <joint name="Jaw"/>
+    </group>
+    
+    <!-- Group states -->
+    <group_state name="open" group="gripper">
+        <joint name="Jaw" value="1.2574"/>
+    </group_state>
+    <group_state name="close" group="gripper">
+        <joint name="Jaw" value="-0.1745"/>
+    </group_state>
+    <group_state name="ready" group="arm">
+        <joint name="Rotation" value="0"/>
+        <joint name="Pitch" value="0"/>
+        <joint name="Elbow" value="0"/>
+        <joint name="Wrist_Pitch" value="0"/>
+        <joint name="Wrist_Roll" value="0"/>
+    </group_state>
+    <group_state name="home" group="arm">
+        <joint name="Rotation" value="0"/>
+        <joint name="Pitch" value="0.5"/>
+        <joint name="Elbow" value="-0.8"/>
+        <joint name="Wrist_Pitch" value="0.3"/>
+        <joint name="Wrist_Roll" value="0"/>
+    </group_state>
+    
+    <!-- End effector - now using tool_tip as parent -->
+    <end_effector name="end_effector" parent_link="tool_tip" group="gripper" parent_group="arm"/>
+    
+    <!-- Virtual joint -->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="base"/>
+    
+    <!-- Disable collisions -->
+    <disable_collisions link1="base" link2="shoulder" reason="Adjacent"/>
+    <disable_collisions link1="base" link2="upper_arm" reason="Never"/>
+    <disable_collisions link1="base" link2="lower_arm" reason="Never"/>
+    <disable_collisions link1="shoulder" link2="upper_arm" reason="Adjacent"/>
+    <disable_collisions link1="shoulder" link2="lower_arm" reason="Never"/>
+    <disable_collisions link1="upper_arm" link2="lower_arm" reason="Adjacent"/>
+    <disable_collisions link1="upper_arm" link2="wrist" reason="Never"/>
+    <disable_collisions link1="lower_arm" link2="wrist" reason="Adjacent"/>
+    <disable_collisions link1="lower_arm" link2="gripper" reason="Never"/>
+    <disable_collisions link1="wrist" link2="gripper" reason="Adjacent"/>
+    <disable_collisions link1="gripper" link2="jaw" reason="Adjacent"/>
+    <disable_collisions link1="gripper" link2="tool_tip" reason="Adjacent"/>
+    <disable_collisions link1="jaw" link2="wrist" reason="Never"/>
+    <disable_collisions link1="jaw" link2="lower_arm" reason="Never"/>
+    <disable_collisions link1="jaw" link2="tool_tip" reason="Adjacent"/>
+</robot>
